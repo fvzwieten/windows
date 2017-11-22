@@ -1,0 +1,20 @@
+- hosts: windows
+  tasks:
+  - name: ensure common OS updates are current
+    win_updates:
+    register: update_result
+
+  - name: reboot and wait for host if updates or domain change require it
+    win_reboot:
+    when: update_result.reboot_required
+
+  - name: ensure local admin account exists
+    win_user:
+      name: localadmin
+      password: '{{ local_admin_password }}'
+      groups: Administrators
+
+  - name: ensure common tools are installed
+    win_chocolatey:
+      name: '{{ item }}'
+    with_items: ['sysinternals', 'googlechrome']
