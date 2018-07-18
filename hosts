@@ -1,0 +1,7 @@
+[webservers]
+w2k16.lab1.example
+
+[webservers:vars]
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore

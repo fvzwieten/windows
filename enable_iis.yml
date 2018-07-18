@@ -2,13 +2,15 @@
 # This playbook installs and enables IIS on Windows hosts
 
 - name: Install IIS
-  hosts: all
+  hosts: webservers
   gather_facts: false
   tasks:
+    - include_vars: "{{ myvault }}"
     - name: Install IIS
       win_feature:
-        name: {{ feature_name }}
+        name: "{{ feature_name }}"
         state: present
         restart: yes
         include_sub_features: yes
         include_management_tools: yes
+    - debug: msg="{{ feature_name }}"
