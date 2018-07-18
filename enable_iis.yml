@@ -10,7 +10,10 @@
       win_feature:
         name: "{{ feature_name }}"
         state: present
-        restart: yes
         include_sub_features: yes
         include_management_tools: yes
     - debug: msg="{{ feature_name }}"
+    
+- name: reboot if installing feature requires it
+  win_reboot:
+  when: win_feature.reboot_required
